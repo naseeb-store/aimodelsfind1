@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title>Unlock</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
     <style>
         * {
@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background-color: #f5f5f5;
             color: #333;
             display: flex;
@@ -56,11 +56,24 @@
             font-size: 24px;
             z-index: 10;
             cursor: pointer;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(0,0,0,0.5);
+            transform: scale(1.05);
         }
 
         .cover-image {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
         }
 
@@ -78,6 +91,7 @@
             font-size: 14px;
             gap: 15px;
             z-index: 5;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .header-stat-item {
@@ -87,14 +101,15 @@
         }
 
         .profile-pic {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             border: 3px solid white;
             object-fit: cover;
-            margin-top: -40px;
+            margin-top: -50px;
             position: relative;
             background-color: #f0f0f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .profile-pic-container {
@@ -104,12 +119,13 @@
         .status-dot {
             position: absolute;
             bottom: 15px;
-            left: 80px;
-            width: 14px;
-            height: 14px;
+            left: 90px;
+            width: 16px;
+            height: 16px;
             background-color: #35D063;
             border-radius: 50%;
             border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .profile-info {
@@ -119,7 +135,7 @@
         }
 
         .profile-name {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -128,12 +144,12 @@
 
         .profile-name .verified {
             color: #00aeff;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .username {
             color: #666;
-            font-size: 14px;
+            font-size: 15px;
             margin-top: 2px;
             display: flex;
             align-items: center;
@@ -150,8 +166,9 @@
 
         .profile-bio {
             margin-top: 15px;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.5;
+            color: #444;
         }
 
         .profile-link {
@@ -159,6 +176,13 @@
             display: block;
             margin-top: 10px;
             font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .profile-link:hover {
+            color: #0088cc;
+            text-decoration: underline;
         }
 
         .bio-tags {
@@ -171,10 +195,16 @@
         .bio-tag {
             background-color: #f3f3f3;
             color: #666;
-            padding: 5px 15px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .bio-tag:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-1px);
         }
 
         /* Subscription section */
@@ -194,16 +224,18 @@
         }
 
         .subscription-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .subscription-button {
-            background-color: #00aeff;
+            background: linear-gradient(135deg, #00aeff, #0088cc);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
@@ -211,14 +243,20 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,174,255,0.2);
         }
 
         .subscription-button:hover {
-            background-color: #0093e0;
+            background: linear-gradient(135deg, #0093e0, #0077b3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,174,255,0.3);
         }
 
         .subscription-price {
             font-weight: normal;
+            font-size: 14px;
         }
 
         /* Content stats */
@@ -237,6 +275,11 @@
             font-size: 14px;
             font-weight: bold;
             position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .stat-tab:hover {
+            color: #444;
         }
 
         .stat-tab.active {
@@ -251,9 +294,10 @@
             width: 100%;
             height: 3px;
             background-color: #00aeff;
+            border-radius: 3px 3px 0 0;
         }
 
-        /* Improved Content Grid Section */
+        /* Content section */
         .content-section {
             padding: 20px;
             background-color: white;
@@ -262,12 +306,25 @@
         .content-filter {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .filter-text-container {
+            display: flex;
+            flex-direction: column;
         }
 
         .filter-text {
-            font-size: 14px;
+            font-size: 15px;
             color: #666;
+            font-weight: bold;
+        }
+
+        .filter-subtext {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
         }
 
         .filter-icons {
@@ -278,7 +335,12 @@
 
         .filter-icon {
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .filter-icon:hover {
+            color: #444;
         }
 
         .filter-icon.active {
@@ -309,11 +371,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
         }
 
         .content-item:hover .content-image {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .content-overlay {
@@ -328,15 +390,93 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .content-overlay i {
-            margin-right: 5px;
+        .content-item:hover .content-overlay {
+            opacity: 1;
         }
 
-        .content-stats {
+        .unlock-icon {
+            background-color: #00aeff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Tip Button */
+        .btn-tip-container {
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-tip {
+            background: linear-gradient(135deg, #ff6b6b, #ff3838);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(255, 56, 56, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-tip:hover {
+            background: linear-gradient(135deg, #ff5252, #ff1a1a);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.3);
+        }
+
+        /* Image Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #bbb;
         }
 
         /* Right sidebar */
@@ -353,12 +493,18 @@
 
         .search-bar {
             width: 100%;
-            padding: 10px 15px;
+            padding: 12px 18px;
             border: 1px solid #eaeaea;
             border-radius: 30px;
             margin-bottom: 20px;
             font-size: 14px;
             outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            border-color: #00aeff;
+            box-shadow: 0 0 0 2px rgba(0,174,255,0.2);
         }
 
         .right-subscription-section {
@@ -366,22 +512,27 @@
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
+            background-color: #fafafa;
         }
 
         .right-subscribe-button {
-            background-color: #00aeff;
+            background: linear-gradient(135deg, #00aeff, #0088cc);
             color: white;
             border: none;
-            padding: 12px 0;
+            padding: 14px 0;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
 
         .right-subscribe-button:hover {
-            background-color: #0093e0;
+            background: linear-gradient(135deg, #0093e0, #0077b3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,174,255,0.3);
         }
 
         .footer-links {
@@ -395,13 +546,20 @@
 
         .footer-link {
             cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #666;
+            text-decoration: underline;
         }
 
         .featured_usename {
             position: absolute;
             top: -22px;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 18px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         /* Responsive adjustments */
@@ -489,7 +647,7 @@
             }
             
             .cover-image {
-                height: 130px;
+                height: 150px;
             }
             
             .header-stats {
@@ -504,13 +662,13 @@
             }
 
             .profile-name {
-                font-size: 16px;
+                font-size: 17px;
             }
 
             .profile-pic {
-                width: 85px;
-                height: 85px;
-                margin-top: -30px;
+                width: 90px;
+                height: 90px;
+                margin-top: -35px;
             }
             
             .header-stats {
@@ -518,10 +676,23 @@
             }
 
             .status-dot {
-                width: 12px;
-                height: 12px;
+                width: 14px;
+                height: 14px;
                 bottom: 15px;
-                left: 68px;
+                left: 72px;
+            }
+            
+            .profile-bio {
+                font-size: 14px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .btn-tip {
+                padding: 12px 25px;
+                font-size: 15px;
             }
         }
     </style>
@@ -585,10 +756,10 @@
                 <div class="subscription-header">
                     <div class="subscription-title">SUBSCRIPTION</div>
                 </div>
-                <a href="/login.html" style="text-decoration: none;">
+                <a href="https://buy.stripe.com/test_00wcN7ev27Bb4fJatjebu01" style="text-decoration: none;">
                     <button class="subscription-button">
-                        <span>SUBSCRIBE</span>
-                        <span class="subscription-price">FOR FREE</span>
+                        <span>UNSUBSCRIBE</span>
+                        <span class="subscription-price"></span>
                     </button>
                 </a>
             </div>
@@ -596,13 +767,14 @@
             <!-- Content stats -->
             <div class="content-stats">
                 <div class="stat-tab active">143 POSTS</div>
-                <!-- <div class="stat-tab">160 MEDIA</div> -->
             </div>
             
             <!-- Content section -->
             <div class="content-section">
                 <div class="content-filter">
-                    <div class="filter-text">RECENT</div>
+                    <div class="filter-text-container">
+                        <div class="filter-text">RECENT</div>
+                    </div>
                     <div class="filter-icons">
                         <div class="filter-icon">
                             <!-- <i class="fa-solid fa-search"></i> -->
@@ -616,49 +788,70 @@
                     </div>
                 </div>
                 <div class="content-grid">
-                    <!-- Grid items with actual image examples -->
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Fashion" class="content-image">
+                    <!-- Grid items with actual images -->
+                    <div class="content-item" onclick="openModal('/Images/1.png')">
+                        <img src="/Images/1.png" alt="Fashion" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 1.2K</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Model" class="content-image">
+                    <div class="content-item" onclick="openModal('/Images/2.png')">
+                        <img src="/Images/2.png" alt="Model" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 892</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Portrait" class="content-image">
+                    <div class="content-item" onclick="openModal('/Images/3.png')">
+                        <img src="/Images/3.png" alt="Portrait" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 1.5K</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Beach" class="content-image">
+                    <div class="content-item" onclick="openModal('/Images/4.png')">
+                        <img src="/Images/4.png" alt="Beach" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 756</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Lingerie" class="content-image">
+                    <div class="content-item" onclick="openModal('/Images/5.png')">
+                        <img src="/Images/5.png" alt="Lingerie" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 2.3K</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-item">
-                        <img src="/img1st.PNG" alt="Bikini" class="content-image">
+                    <div class="content-item" onclick="openModal('/Images/6.png')">
+                        <img src="/Images/6.png" alt="Bikini" class="content-image">
                         <div class="content-overlay">
                             <span><i class="fa-solid fa-heart"></i> 1.8K</span>
-                            <i class="fa-solid fa-lock"></i>
+                            <div class="unlock-icon">
+                                <i class="fa-solid fa-unlock"></i>
+                            </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Tip Button Section -->
+                <div class="btn-tip-container">
+                    <a href="https://buy.stripe.com/test_00wcN7ev27Bb4fJatjebu01" style="text-decoration: none;">
+                        <button class="btn-tip">
+                            <i class="fas fa-gift"></i> TIP CREATOR
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -668,8 +861,8 @@
             <input type="text" class="search-bar" placeholder="Search user's post">
             <div class="right-subscription-section">
                 <div class="subscription-title">SUBSCRIPTION</div>
-                <a href="/login.html">
-                    <button class="right-subscribe-button">SUBSCRIBE FOR FREE</button>
+                <a href="https://buy.stripe.com/test_fZu00l1Ig2gR7rVfNDebu00">
+                    <button class="right-subscribe-button">UNSUBSCRIBE</button>
                 </a>
             </div>
             <div class="footer-links">
@@ -679,5 +872,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        // Function to open modal with clicked image
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        // Close modal when clicking outside of image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
