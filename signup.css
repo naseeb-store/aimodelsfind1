@@ -1,63 +1,65 @@
-/* Center the form on the page and make it larger */
+/* Center the form on the page with new background color */
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #2c1a2e;
+  background-color: #e8e3e3d3;
 }
 
-/* From Uiverse.io by rahilansari261 - modified */
+/* Form styling with new background */
 .form {
-  background-color: #15172b;
+  background-color: #e8e3e3d3;
   border-radius: 20px;
   box-sizing: border-box;
-  height: 600px; /* Increased height */
-  padding: 30px; /* Increased padding */
-  width: 400px; /* Increased width */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  height: 600px;
+  padding: 30px;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d0cbcb; /* Added subtle border for definition */
 }
 
+/* Updated text colors for better contrast */
 .title {
-  color: #eee;
+  color: #333; /* Darker text for better readability */
   font-family: sans-serif;
-  font-size: 42px; /* Larger font */
+  font-size: 42px;
   font-weight: 600;
   margin-top: 30px;
   text-align: center;
 }
 
 .subtitle {
-  color: #eee;
+  color: #555; /* Slightly lighter than title */
   font-family: sans-serif;
-  font-size: 18px; /* Slightly larger */
+  font-size: 18px;
   font-weight: 600;
   margin-top: 15px;
   text-align: center;
 }
 
 .input-container {
-  height: 60px; /* Taller inputs */
+  height: 60px;
   position: relative;
   width: 100%;
   margin-bottom: 10px;
 }
 
 .ic1 {
-  margin-top: 50px; /* More spacing */
+  margin-top: 50px;
 }
 
 .ic2 {
-  margin-top: 35px; /* More spacing */
+  margin-top: 35px;
 }
 
 .input {
-  background-color: #303245;
+  background-color: #f8f8f8; /* Light input background */
   border-radius: 12px;
-  border: 0;
+  border: 1px solid #ccc;
   box-sizing: border-box;
-  color: #eee;
+  color: #333; /* Dark text */
   font-size: 18px;
   height: 100%;
   outline: 0;
@@ -66,7 +68,7 @@ body {
 }
 
 .cut {
-  background-color: #15172b;
+  background-color: #e8e3e3d3; /* Matching form background */
   border-radius: 10px;
   height: 20px;
   left: 20px;
@@ -82,7 +84,7 @@ body {
 }
 
 .iLabel {
-  color: #65657b;
+  color: #777; /* Medium gray for labels */
   font-family: sans-serif;
   left: 20px;
   line-height: 14px;
@@ -99,14 +101,15 @@ body {
 
 .input:focus ~ .iLabel {
   transform: translateY(-30px) translateX(10px) scale(0.75);
+  color: #08d; /* Blue accent color for focus */
 }
 
 .input:not(:focus) ~ .iLabel {
-  color: #808097;
+  color: #999;
 }
 
-.input:focus ~ .iLabel {
-  color: #dc2f55;
+.input:focus {
+  border-color: #08d; /* Blue accent for focused input */
 }
 
 .submit {
@@ -114,24 +117,24 @@ body {
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: #eee;
+  color: #fff;
   cursor: pointer;
   font-size: 18px;
   height: 50px;
   margin-top: 38px;
   text-align: center;
   width: 100%;
-  text-decoration: none; /* For the anchor tag */
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s;
 }
 
-.submit:active {
+.submit:hover {
   background-color: #06b;
 }
 
-/* Add hover effect for better interactivity */
-.submit:hover {
-  background-color: #07c;
+.submit:active {
+  background-color: #059;
 }
