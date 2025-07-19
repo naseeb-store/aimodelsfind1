@@ -305,6 +305,37 @@
         .content-item:hover {
             transform: scale(1.02);
         }
+        .btn-tip-container {
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    margin-top: -10px;
+}
+
+.btn-tip {
+    background: linear-gradient(135deg, #6baeff, #3856ff);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(56, 86, 255, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+}
+
+.btn-tip:hover {
+    background: linear-gradient(135deg, #5269ff, #1a35ff);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(56, 86, 255, 0.4);
+}
 
         .content-image {
             width: 100%;
@@ -589,7 +620,7 @@
                 <a href="/login.html" style="text-decoration: none;">
                     <button class="subscription-button">
                         <span>SUBSCRIBE</span>
-                        <span class="subscription-price">3.99e</span>
+                        <span class="subscription-price">3.99€</span>
                     </button>
                 </a>
             </div>
@@ -662,6 +693,15 @@
                     </div>
                 </div>
             </div>
+
+
+             <div class="btn-tip-container">
+                    <a href="https://buy.stripe.com/test_00wcN7ev27Bb4fJatjebu01" style="text-decoration: none;">
+                        <button class="btn-tip">
+                            <i class="fas fa-gift"></i> TIP CREATOR
+                        </button>
+                    </a>
+                </div>
         </div>
         
         <!-- Right sidebar -->
@@ -679,7 +719,9 @@
                 <div class="footer-link">Terms of Service</div>
             </div>
         </div>
+
     </div>
+    
 </body>
 </html>
 
